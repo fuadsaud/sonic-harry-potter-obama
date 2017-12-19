@@ -3,6 +3,7 @@
 require 'net/http'
 require 'terminal-table'
 require 'cape-cod'
+require 'sendgrid-ruby'
 
 module Clothing
   MATCHERS = {
@@ -98,7 +99,7 @@ class Mailer
   end
 end
 
-rendered_results = Terminal::Table.new(rows: Clothing.fetch_and_present_all, style: { border_x: '–' })
+rendered_results = Terminal::Table.new(rows: Clothing.fetch_and_present_all, style: { border_x: '–' }).to_s
 
 if ENV['email']
   Mailer.new.call(rendered_results)
