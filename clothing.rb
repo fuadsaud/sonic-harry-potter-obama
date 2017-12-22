@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'commaparty'
 require 'cape-cod'
-require 'csv'
 require 'net/http'
 require 'sendgrid-ruby'
 require 'terminal-table'
@@ -116,12 +116,15 @@ class Clothing
   end
 
   class PresentEmail
-    def call(data)
-      CSV.generate(col_sep: ' | ') do |csv|
-        data.each do |d|
-          csv << present(d)
-        end
-      end
+    def call(results)
+      CommaParty.markup(
+        [:table,
+         results.map { |result|
+          [:tr,
+           present(result).map { |r|
+            [:td, r]
+          }]
+        }])
     end
 
     private
@@ -158,14 +161,14 @@ class Clothing
   def call
     results_table = to_table(FetchAll.new.call(PRODUCTS))
     term_output = PresentTerminalTable.new.call(results_table)
-    csv_output = PresentEmail.new.call(results_table)
+    email_output = PresentEmail.new.call(results_table)
 
     if ENV['email']
-      SendMail.new.call(csv_output)
+      SendMail.new.call(email_output)
     end
 
     puts term_output
-    puts csv_output
+    puts email_output
   end
 
   private
