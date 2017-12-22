@@ -141,7 +141,7 @@ class Clothing
       from = Email.new(email: 'fuadfsaud@gmail.com')
       subject = 'Clothing Report'
       to = Email.new(email: 'fuadfsaud@gmail.com')
-      content = Content.new(type: 'text/plain', value: content)
+      content = Content.new(type: 'text/html', value: content)
       mail = Mail.new(from, subject, to, content)
 
       sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
