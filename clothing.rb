@@ -1,15 +1,17 @@
 #!/usr/bin/env ruby
 
-require 'net/http'
-require 'terminal-table'
 require 'cape-cod'
+require 'csv'
+require 'net/http'
 require 'sendgrid-ruby'
+require 'terminal-table'
 
-module Clothing
+class Clothing
   MATCHERS = {
     hering: ->(size, page) { page =~ /data-color="#{size}"/ }.curry,
     sounds_size: ->(size, page) { page =~ /data-available="true"\sdata-original_price="R\$\s60,00"\svalue="\d+">#{size}</ }.curry,
-    sounds_size_style: ->(size, style, page) { page =~ /data-available="true"\sdata-original_price="R\$\s60,00"\svalue="\d+">#{size} #{style}</ }.curry
+    sounds_size_style: ->(size, style, page) { page =~ /data-available="true"\sdata-original_price="R\$\s60,00"\svalue="\d+">#{size} #{style}</ }.curry,
+    renner_size: ->(size, page) { page =~ /inptRadio" name="#{size}"/ }.curry
   }
 
   PRODUCTS = {
@@ -48,61 +50,129 @@ module Clothing
     'Obama' => {
       url: 'https://www.soundandvision.com.br/produtos/obama-caa73265-f39e-42bb-8c29-d67af76a14d7',
       fn: MATCHERS[:sounds_size].('M')
+    },
+    'JAQUETA BOMBER REVERSÍVEL' => {
+      url: 'http://www.lojasrenner.com.br/p/jaqueta-bomber-reversivel-542675088-542675125',
+      fn: MATCHERS[:renner_size].('M')
+    },
+    'JAQUETA ALONGADA REVERSÍVEL' => {
+      url: 'http://www.lojasrenner.com.br/p/jaqueta-alongada-reversivel-544154850-544154876',
+      fn: MATCHERS[:renner_size].('M')
+    },
+    'JAQUETA PARKA COM CAPUZ BRANCA' => {
+      url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543157514',
+      fn: MATCHERS[:renner_size].('M')
+    },
+    'JAQUETA PARKA COM CAPUZ AZUL' => {
+      url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543244600',
+      fn: MATCHERS[:renner_size].('M')
     }
   }
 
-  class << self
-    def get(url)
-      Net::HTTP.get(URI(url))
+  class FetchPage
+    def call(product)
+      Net::HTTP.get(URI(product[:url]))
+    end
+  end
+
+  class MatchPage
+    def call(product)
+      product[:fn].(product[:page])
+    end
+  end
+
+  class BoolToChar
+    def call(bool)
+      if bool
+        '✓'
+      else
+        '𝘹'
+      end
+    end
+  end
+
+  class PresentTerminalTable
+    def call(results)
+      Terminal::Table.new(rows: results.map { |result| present(result) }, style: { border_x: '–' }).to_s
     end
 
-    def fetch(name, details)
-      url = details[:url]
-      fn = details[:fn]
-      found = fn.(get(details[:url]))
+    private
 
-      [found, name, url]
+    def present(result)
+      [BoolToChar.new.call(result.first), *result[1..-1]].map { |r| colorize(result.first, r) }
+    end
+
+    def colorize(found, s)
+      if found
+        colorize_found(s)
+      else
+        s
+      end
     end
 
     def colorize_found(s)
       CapeCod.fg(0, 255, 0, s)
     end
+  end
 
-    def present(result)
-      if result.first
-        ['✓', *result[1..-1]].map { |s| colorize_found(s) }
-      else
-        ['𝘹', *result[1..-1]]
+  class PresentEmail
+    def call(data)
+      CSV.generate(col_sep: ' | ') do |csv|
+        data.each do |d|
+          csv << present(d)
+        end
       end
     end
 
-    def fetch_and_present_all
-      PRODUCTS
-        .map { |name, details| self.fetch(name, details) }
-        .map { |r| present(r) }
+    private
+
+    def present(result)
+      [BoolToChar.new.call(result.first), *result[1..-1]]
     end
   end
-end
 
-class Mailer
-  include SendGrid
+  class SendMail
+    include SendGrid
 
-  def call(content)
-    from = Email.new(email: 'fuadfsaud@gmail.com')
-    subject = 'Clothing Report'
-    to = Email.new(email: 'fuadfsaud@gmail.com')
-    content = Content.new(type: 'text/plain', value: content)
-    mail = Mail.new(from, subject, to, content)
+    def call(content)
+      from = Email.new(email: 'fuadfsaud@gmail.com')
+      subject = 'Clothing Report'
+      to = Email.new(email: 'fuadfsaud@gmail.com')
+      content = Content.new(type: 'text/plain', value: content)
+      mail = Mail.new(from, subject, to, content)
 
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-    response = sg.client.mail._('send').post(request_body: mail.to_json)
+      sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+      response = sg.client.mail._('send').post(request_body: mail.to_json)
+    end
+  end
+
+  class FetchAll
+    def call(products)
+      products
+        .map { |name, details| details.merge(name: name) }
+        .map { |product| product.merge(page: FetchPage.new.call(product)) }
+        .map { |product| product.merge(found: MatchPage.new.call(product)) }
+    end
+  end
+
+  def call
+    results_table = to_table(FetchAll.new.call(PRODUCTS))
+    term_output = PresentTerminalTable.new.call(results_table)
+    csv_output = PresentEmail.new.call(results_table)
+
+    if ENV['email']
+      SendMail.new.call(csv_output)
+    end
+
+    puts term_output
+    puts csv_output
+  end
+
+  private
+
+  def to_table(products)
+    products.map { |p| [p[:found], p[:name], p[:url]] }
   end
 end
 
-rendered_results = Terminal::Table.new(rows: Clothing.fetch_and_present_all, style: { border_x: '–' }).to_s
-
-if ENV['email']
-  Mailer.new.call(rendered_results)
-end
-
-puts rendered_results
+Clothing.new.call
