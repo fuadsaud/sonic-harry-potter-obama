@@ -31,6 +31,7 @@ PLATFORMS
 DEPENDENCIES
   cape-cod
   commaparty
+  nokogiri
   sendgrid-ruby
   terminal-table
 

@@ -3,15 +3,15 @@
 require 'commaparty'
 require 'cape-cod'
 require 'net/http'
+require 'nokogiri'
 require 'sendgrid-ruby'
 require 'terminal-table'
 
 class Clothing
   MATCHERS = {
-    hering: ->(size, page) { page =~ /data-color="#{size}"/ }.curry,
-    sounds_size: ->(size, page) { page =~ /data-available="true"\sdata-original_price="R\$\s60,00"\svalue="\d+">#{size}</ }.curry,
-    sounds_size_style: ->(size, style, page) { page =~ /data-available="true"\sdata-original_price="R\$\s60,00"\svalue="\d+">#{size} #{style}</ }.curry,
-    renner_size: ->(size, page) { page =~ /inptRadio" name="#{size}"/ }.curry
+    hering: ->(size, page) { !page.css(".product-detail-variant-size li[data-color=\"#{size}\"]".empty? ) }.curry,
+    renner: ->(size, page) { !page.css(".skuSizeList .inptRadio[name=\"#{size}\"]").empty? }.curry,
+    sounds: ->(size, page) { page.css('#variant [data-available="true"]').map(&:text).include?(size) }.curry,
   }
 
   PRODUCTS = {
@@ -25,47 +25,51 @@ class Clothing
     },
     'Grande Acordo Nacional' => {
       url: 'https://www.soundandvision.com.br/produtos/grande-acordo-nacional',
-      fn: MATCHERS[:sounds_size_style].('M').('preto')
+      fn: MATCHERS[:sounds].('M preto')
     },
     'Tudo Muito Dark' => {
       url: 'https://www.soundandvision.com.br/produtos/udo-mui-o-dark-udo-mui-o-dark',
-      fn: MATCHERS[:sounds_size_style].('M').('preta')
+      fn: MATCHERS[:sounds].('M preta')
     },
     'Coma Churros' => {
       url: 'https://www.soundandvision.com.br/produtos/coma-churros',
-      fn: MATCHERS[:sounds_size].('M')
+      fn: MATCHERS[:sounds].('M')
     },
     'Batiminha LP' => {
       url: 'https://www.soundandvision.com.br/produtos/batiminha-lp',
-      fn: MATCHERS[:sounds_size].('M')
+      fn: MATCHERS[:sounds].('M')
     },
     'Batiminha' => {
       url: 'https://www.soundandvision.com.br/produtos/batiminha',
-      fn: MATCHERS[:sounds_size].('M')
+      fn: MATCHERS[:sounds].('M')
     },
     'Deus Nunca Perdoe' => {
       url: 'https://www.soundandvision.com.br/produtos/que-deus-nunca-perdoe-essas-pessoas-e75a11ee-dc89-4f67-a05e-6dc7976cd97c',
-      fn: MATCHERS[:sounds_size].('M')
+      fn: MATCHERS[:sounds].('M')
     },
     'Obama' => {
       url: 'https://www.soundandvision.com.br/produtos/obama-caa73265-f39e-42bb-8c29-d67af76a14d7',
-      fn: MATCHERS[:sounds_size].('M')
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Esto no es America' => {
+      url: 'https://www.soundandvision.com.br/produtos/this-is-not-america',
+      fn: MATCHERS[:sounds].('M')
     },
     'JAQUETA BOMBER REVERSÍVEL' => {
       url: 'http://www.lojasrenner.com.br/p/jaqueta-bomber-reversivel-542675088-542675125',
-      fn: MATCHERS[:renner_size].('M')
+      fn: MATCHERS[:renner].('M')
     },
     'JAQUETA ALONGADA REVERSÍVEL' => {
       url: 'http://www.lojasrenner.com.br/p/jaqueta-alongada-reversivel-544154850-544154876',
-      fn: MATCHERS[:renner_size].('M')
+      fn: MATCHERS[:renner].('M')
     },
     'JAQUETA PARKA COM CAPUZ BRANCA' => {
       url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543157514',
-      fn: MATCHERS[:renner_size].('M')
+      fn: MATCHERS[:renner].('M')
     },
     'JAQUETA PARKA COM CAPUZ AZUL' => {
       url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543244600',
-      fn: MATCHERS[:renner_size].('M')
+      fn: MATCHERS[:renner].('M')
     }
   }
 
@@ -77,7 +81,7 @@ class Clothing
 
   class MatchPage
     def call(product)
-      product[:fn].(product[:page])
+      product[:fn].(Nokogiri::HTML(product[:page]))
     end
   end
 
@@ -165,10 +169,11 @@ class Clothing
 
     if ENV['email']
       SendMail.new.call(email_output)
+
+      puts email_output
     end
 
     puts term_output
-    puts email_output
   end
 
   private
