@@ -2,4 +2,7 @@
 
 require_relative '../lib/sonic_harry_potter_obama'
 
-SonicHarryPotterObama::App.new.call(SonicHarryPotterObama::PRODUCTS)
+SonicHarryPotterObama::App.new.call(
+  SonicHarryPotterObama::PRODUCTS,
+  send_email: !ENV['SEND_EMAIL'].nil?,
+)
