@@ -9,8 +9,6 @@ module SonicHarryPotterObama
   RENNER_M = MATCHERS[:renner].('M')
 
   TABLE = [
-    'Hering Jogger Branca',                HERING_M,        'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3M2H07S4',
-    'Hering Jogger Preta',                 HERING_M,        'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3N1007S5',
     'Grande Acordo Nacional',              SOUNDS_M_PRETO,  'https://www.soundandvision.com.br/produtos/grande-acordo-nacional',
     'Tudo Muito Dark',                     SOUNDS_M_PRETA,  'https://www.soundandvision.com.br/produtos/udo-mui-o-dark-udo-mui-o-dark',
     'O Caminho do Bem',                    SOUNDS_M,        'https://www.soundandvision.com.br/produtos/o-caminho-do-bem',
@@ -40,6 +38,8 @@ module SonicHarryPotterObama
     "Don't miga me",                       SOUNDS_M,        'https://www.soundandvision.com.br/produtos/don-t-miga-me',
     'A peleja do diabo com o dono do céu', SOUNDS_M,        'https://www.soundandvision.com.br/produtos/a-peleja-do-diabo-com-o-dono-do-ceu',
     'O diabo que te carregue',             SOUNDS_M,        'https://www.soundandvision.com.br/produtos/o-diabo-que-te-carregue',
+    'Hering Jogger Branca',                HERING_M,        'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3M2H07S4',
+    'Hering Jogger Preta',                 HERING_M,        'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3N1007S5',
     'JAQUETA BOMBER REVERSÍVEL',           RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-bomber-reversivel-542675088-542675125',
     'JAQUETA ALONGADA REVERSÍVEL',         RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-alongada-reversivel-544154850-544154876',
     'JAQUETA PARKA COM CAPUZ BRANCA',      RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543157514',
