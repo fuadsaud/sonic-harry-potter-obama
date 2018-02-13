@@ -1,146 +1,50 @@
 require_relative 'matching'
 
 module SonicHarryPotterObama
-  PRODUCTS = {
-    'Hering Jogger Branca' => {
-      url: 'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3M2H07S4',
-      fn: MATCHERS[:hering].('M')
-    },
-    'Hering Jogger Preta' => {
-      url: 'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3N1007S5',
-      fn: MATCHERS[:hering].('M')
-    },
-    'Grande Acordo Nacional' => {
-      url: 'https://www.soundandvision.com.br/produtos/grande-acordo-nacional',
-      fn: MATCHERS[:sounds].('M preto')
-    },
-    'Tudo Muito Dark' => {
-      url: 'https://www.soundandvision.com.br/produtos/udo-mui-o-dark-udo-mui-o-dark',
-      fn: MATCHERS[:sounds].('M preta')
-    },
-    'O Caminho do Bem' => {
-      url: 'https://www.soundandvision.com.br/produtos/o-caminho-do-bem',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Dinossaur Jr.' => {
-      url: 'https://www.soundandvision.com.br/produtos/feel-the-pain',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Washing Machine' => {
-      url: 'https://www.soundandvision.com.br/produtos/washing-machine',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Space Oddity' => {
-      url: 'https://www.soundandvision.com.br/produtos/space-oddity',
-      fn: MATCHERS[:sounds].('M branca')
-    },
-    'Coma Churros' => {
-      url: 'https://www.soundandvision.com.br/produtos/coma-churros',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Batiminha LP' => {
-      url: 'https://www.soundandvision.com.br/produtos/batiminha-lp',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Batiminha' => {
-      url: 'https://www.soundandvision.com.br/produtos/batiminha',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'The Dark Side of Batiminha' => {
-      url: 'https://www.soundandvision.com.br/produtos/the-dark-side-of-batiminha',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Who the fuck is Batiminha' => {
-      url: 'https://www.soundandvision.com.br/produtos/who-the-fuck',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'DAMN' => {
-      url: 'https://www.soundandvision.com.br/produtos/damn',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Mac Demarco' => {
-      url: 'https://www.soundandvision.com.br/produtos/mac-demarco',
-      fn: MATCHERS[:sounds].('M')
-    },
-    '1000 tretas' => {
-      url: 'https://www.soundandvision.com.br/produtos/1000-tretas',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Coltrane' => {
-      url: 'https://www.soundandvision.com.br/produtos/coltrane-8eb518cb-8d9e-48ad-9acb-570d2ace2282',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Coltrane Africa' => {
-      url: 'https://www.soundandvision.com.br/produtos/coltrane-073e6c81-d94b-476e-9006-97fc73920cfb',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Que Deus perdoe essas pessoas' => {
-      url: 'https://www.soundandvision.com.br/produtos/que-deus-perdoe-essas-pessoas-que-deus-gg',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Que Deus nunca perdoe essas pessoas' => {
-      url: 'https://www.soundandvision.com.br/produtos/que-deus-nunca-perdoe-essas-pessoas-e75a11ee-dc89-4f67-a05e-6dc7976cd97c',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Antifa' => {
-      url: 'https://www.soundandvision.com.br/produtos/antifa',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Obama' => {
-      url: 'https://www.soundandvision.com.br/produtos/obama-caa73265-f39e-42bb-8c29-d67af76a14d7',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Esto no es America' => {
-      url: 'https://www.soundandvision.com.br/produtos/this-is-not-america',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Boys Don\'t Cry' => {
-      url: 'https://www.soundandvision.com.br/produtos/boys-don-t-cry',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Ewok' => {
-      url: 'https://www.soundandvision.com.br/produtos/ewok-f4e70741-e047-47f8-880b-c4200c2ada62',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'E aí blz?' => {
-      url: 'https://www.soundandvision.com.br/produtos/eai-blz',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Sorry Walt' => {
-      url: 'https://www.soundandvision.com.br/produtos/sorry-walt',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Alex Turner Transão' => {
-      url: 'https://www.soundandvision.com.br/produtos/alex-turner-transao',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Don\'t miga me' => {
-      url: 'https://www.soundandvision.com.br/produtos/don-t-miga-me',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'A peleja do diabo com o dono do céu' => {
-      url: 'https://www.soundandvision.com.br/produtos/a-peleja-do-diabo-com-o-dono-do-ceu',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'O diabo que te carregue' => {
-      url: 'https://www.soundandvision.com.br/produtos/o-diabo-que-te-carregue',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'JAQUETA BOMBER REVERSÍVEL' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-bomber-reversivel-542675088-542675125',
-      fn: MATCHERS[:renner_new].('M')
-    },
-    'JAQUETA ALONGADA REVERSÍVEL' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-alongada-reversivel-544154850-544154876',
-      fn: MATCHERS[:renner_new].('M')
-    },
-    'JAQUETA PARKA COM CAPUZ BRANCA' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543157514',
-      fn: MATCHERS[:renner_new].('M')
-    },
-    'JAQUETA PARKA COM CAPUZ AZUL' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543244600',
-      fn: MATCHERS[:renner_new].('M')
-    }
-  }
+  HERING_M = MATCHERS[:hering].('M')
+  SOUNDS_M = MATCHERS[:sounds].('M')
+  SOUNDS_M_PRETO = MATCHERS[:sounds].('M preto')
+  SOUNDS_M_PRETA = MATCHERS[:sounds].('M preta')
+  SOUNDS_M_BRANCA = MATCHERS[:sounds].('M branca')
+  RENNER_M = MATCHERS[:renner_new].('M')
+
+  TABLE = [
+    'Hering Jogger Branca',                HERING_M,        'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3M2H07S4',
+    'Hering Jogger Preta',                 HERING_M,        'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3N1007S5',
+    'Grande Acordo Nacional',              SOUNDS_M_PRETO,  'https://www.soundandvision.com.br/produtos/grande-acordo-nacional',
+    'Tudo Muito Dark',                     SOUNDS_M_PRETA,  'https://www.soundandvision.com.br/produtos/udo-mui-o-dark-udo-mui-o-dark',
+    'O Caminho do Bem',                    SOUNDS_M,        'https://www.soundandvision.com.br/produtos/o-caminho-do-bem',
+    'Dinossaur Jr.',                       SOUNDS_M,        'https://www.soundandvision.com.br/produtos/feel-the-pain',
+    'Washing Machine',                     SOUNDS_M,        'https://www.soundandvision.com.br/produtos/washing-machine',
+    'Space Oddity',                        SOUNDS_M_BRANCA, 'https://www.soundandvision.com.br/produtos/space-oddity',
+    'Coma Churros',                        SOUNDS_M,        'https://www.soundandvision.com.br/produtos/coma-churros',
+    'Batiminha LP',                        SOUNDS_M,        'https://www.soundandvision.com.br/produtos/batiminha-lp',
+    'Batiminha',                           SOUNDS_M,        'https://www.soundandvision.com.br/produtos/batiminha',
+    'The Dark Side of Batiminha',          SOUNDS_M,        'https://www.soundandvision.com.br/produtos/the-dark-side-of-batiminha',
+    'Who the fuck is Batiminha',           SOUNDS_M,        'https://www.soundandvision.com.br/produtos/who-the-fuck',
+    'DAMN',                                SOUNDS_M,        'https://www.soundandvision.com.br/produtos/damn',
+    'Mac Demarco',                         SOUNDS_M,        'https://www.soundandvision.com.br/produtos/mac-demarco',
+    '1000 tretas',                         SOUNDS_M,        'https://www.soundandvision.com.br/produtos/1000-tretas',
+    'Coltrane',                            SOUNDS_M,        'https://www.soundandvision.com.br/produtos/coltrane-8eb518cb-8d9e-48ad-9acb-570d2ace2282',
+    'Coltrane Africa',                     SOUNDS_M,        'https://www.soundandvision.com.br/produtos/coltrane-073e6c81-d94b-476e-9006-97fc73920cfb',
+    'Que Deus perdoe essas pessoas',       SOUNDS_M,        'https://www.soundandvision.com.br/produtos/que-deus-perdoe-essas-pessoas-que-deus-gg',
+    'Que Deus nunca perdoe essas pessoas', SOUNDS_M,        'https://www.soundandvision.com.br/produtos/que-deus-nunca-perdoe-essas-pessoas-e75a11ee-dc89-4f67-a05e-6dc7976cd97c',
+    'Antifa',                              SOUNDS_M,        'https://www.soundandvision.com.br/produtos/antifa',
+    'Obama',                               SOUNDS_M,        'https://www.soundandvision.com.br/produtos/obama-caa73265-f39e-42bb-8c29-d67af76a14d7',
+    'Esto no es America',                  SOUNDS_M,        'https://www.soundandvision.com.br/produtos/this-is-not-america',
+    "Boys Don't Cry",                      SOUNDS_M,        'https://www.soundandvision.com.br/produtos/boys-don-t-cry',
+    'Ewok',                                SOUNDS_M,        'https://www.soundandvision.com.br/produtos/ewok-f4e70741-e047-47f8-880b-c4200c2ada62',
+    'E aí blz?',                           SOUNDS_M,        'https://www.soundandvision.com.br/produtos/eai-blz',
+    'Sorry Walt',                          SOUNDS_M,        'https://www.soundandvision.com.br/produtos/sorry-walt',
+    'Alex Turner Transão',                 SOUNDS_M,        'https://www.soundandvision.com.br/produtos/alex-turner-transao',
+    "Don't miga me",                       SOUNDS_M,        'https://www.soundandvision.com.br/produtos/don-t-miga-me',
+    'A peleja do diabo com o dono do céu', SOUNDS_M,        'https://www.soundandvision.com.br/produtos/a-peleja-do-diabo-com-o-dono-do-ceu',
+    'O diabo que te carregue',             SOUNDS_M,        'https://www.soundandvision.com.br/produtos/o-diabo-que-te-carregue',
+    'JAQUETA BOMBER REVERSÍVEL',           RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-bomber-reversivel-542675088-542675125',
+    'JAQUETA ALONGADA REVERSÍVEL',         RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-alongada-reversivel-544154850-544154876',
+    'JAQUETA PARKA COM CAPUZ BRANCA',      RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543157514',
+    'JAQUETA PARKA COM CAPUZ AZUL',        RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543244600'
+  ]
+
+  PRODUCTS = TABLE.each_slice(3).map { |name, matcher, url| [name, { url: url, fn: matcher }] }.to_h
 end
