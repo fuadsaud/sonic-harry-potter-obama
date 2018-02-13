@@ -1,6 +1,6 @@
 require 'sendgrid-ruby'
 
-class SonicHarryPotterObama
+module SonicHarryPotterObama
   class SendMail
     include SendGrid
 

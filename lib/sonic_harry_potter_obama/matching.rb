@@ -1,4 +1,4 @@
-class SonicHarryPotterObama
+module SonicHarryPotterObama
   MATCHERS = {
     hering: ->(size, page) { !page.css(".product-detail-variant-size li[data-color=\"#{size}\"]".empty? ) },
     renner: ->(size, page) { !page.css(".skuSizeList .inptRadio[name=\"#{size}\"]").empty? },

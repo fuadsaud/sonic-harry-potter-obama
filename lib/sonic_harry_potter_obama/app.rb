@@ -5,7 +5,7 @@ require_relative 'fetching'
 require_relative 'presenting'
 require_relative 'mailing'
 
-class SonicHarryPotterObama
+module SonicHarryPotterObama
   class App
     class MatchPage
       def call(product)

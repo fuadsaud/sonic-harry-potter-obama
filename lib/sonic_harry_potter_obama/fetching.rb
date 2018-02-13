@@ -1,6 +1,6 @@
 require 'typhoeus'
 
-class SonicHarryPotterObama
+module SonicHarryPotterObama
   class ParallelFetchAll
     def call(products)
       products_with_request = products.map { |product| product.merge(request: Typhoeus::Request.new(product[:url])) }

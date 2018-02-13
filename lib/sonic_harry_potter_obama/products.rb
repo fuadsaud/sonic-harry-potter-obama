@@ -1,6 +1,6 @@
 require_relative 'matching'
 
-class SonicHarryPotterObama
+module SonicHarryPotterObama
   PRODUCTS = {
     'Hering Jogger Branca' => {
       url: 'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3M2H07S4',

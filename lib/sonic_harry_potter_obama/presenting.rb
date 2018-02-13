@@ -2,7 +2,7 @@ require 'commaparty'
 require 'cape-cod'
 require 'terminal-table'
 
-class SonicHarryPotterObama
+module SonicHarryPotterObama
   class BoolToChar
     def call(bool)
       if bool
