@@ -46,5 +46,5 @@ module SonicHarryPotterObama
     'JAQUETA PARKA COM CAPUZ AZUL',        RENNER_M,        'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543244600'
   ]
 
-  PRODUCTS = TABLE.each_slice(3).map { |name, matcher, url| [name, { url: url, fn: matcher }] }.to_h
+  PRODUCTS = TABLE.each_slice(3).map { |name, matcher, url| { name: name, url: url, fn: matcher } }
 end

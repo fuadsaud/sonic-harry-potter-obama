@@ -22,8 +22,7 @@ module SonicHarryPotterObama
       end
     end
 
-    def call(product_map)
-      products = product_map.map { |name, details| details.merge(name: name)}
+    def call(products)
       results_table = to_table(FetchAndMatchAll.new.call(products))
       term_output = PresentTerminalTable.new.call(results_table)
       email_output = PresentEmail.new.call(results_table)
