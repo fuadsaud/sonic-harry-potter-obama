@@ -6,7 +6,7 @@ module SonicHarryPotterObama
   SOUNDS_M_PRETO = MATCHERS[:sounds].('M preto')
   SOUNDS_M_PRETA = MATCHERS[:sounds].('M preta')
   SOUNDS_M_BRANCA = MATCHERS[:sounds].('M branca')
-  RENNER_M = MATCHERS[:renner_new].('M')
+  RENNER_M = MATCHERS[:renner].('M')
 
   TABLE = [
     'Hering Jogger Branca',                HERING_M,        'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3M2H07S4',
