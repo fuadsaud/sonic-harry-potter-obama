@@ -2,4 +2,4 @@
 
 require_relative 'lib/sonic_harry_potter_obama.rb'
 
-SonicHarryPotterObama.new.call(PRODUCTS)
+SonicHarryPotterObama.new.call(SonicHarryPotterObama::PRODUCTS)
