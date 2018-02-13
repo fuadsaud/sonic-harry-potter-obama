@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/sonic_harry_potter_obama.rb'
+require_relative 'lib/sonic_harry_potter_obama'
 
-SonicHarryPotterObama.new.call(SonicHarryPotterObama::PRODUCTS)
+SonicHarryPotterObama::App.new.call(SonicHarryPotterObama::PRODUCTS)
