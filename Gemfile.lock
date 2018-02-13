@@ -4,6 +4,9 @@ GEM
     cape-cod (0.1.4)
     commaparty (0.0.2)
       nokogiri
+    ethon (0.11.0)
+      ffi (>= 1.3.0)
+    ffi (1.9.21)
     mini_portile2 (2.3.0)
     mustermann (1.0.1)
     nokogiri (1.8.1)
@@ -23,6 +26,8 @@ GEM
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     tilt (2.0.8)
+    typhoeus (1.3.0)
+      ethon (>= 0.9.0)
     unicode-display_width (1.3.0)
 
 PLATFORMS
@@ -34,6 +39,7 @@ DEPENDENCIES
   nokogiri
   sendgrid-ruby
   terminal-table
+  typhoeus
 
 BUNDLED WITH
    1.15.0

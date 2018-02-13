@@ -6,16 +6,11 @@ require 'net/http'
 require 'nokogiri'
 require 'sendgrid-ruby'
 require 'terminal-table'
+require 'typhoeus'
 
 require_relative 'products'
 
 class Clothing
-  class FetchPage
-    def call(product)
-      Net::HTTP.get(URI(product[:url]))
-    end
-  end
-
   class MatchPage
     def call(product)
       product[:fn].(Nokogiri::HTML(product[:page]))
@@ -90,17 +85,32 @@ class Clothing
     end
   end
 
-  class FetchAll
+  class ParallelFetchAll
     def call(products)
-      products
-        .map { |name, details| details.merge(name: name) }
-        .map { |product| product.merge(page: FetchPage.new.call(product)) }
+      products_with_request = products.map { |product| product.merge(request: Typhoeus::Request.new(product[:url])) }
+
+      Typhoeus::Hydra.hydra.tap do |hydra|
+        products_with_request.each do |product|
+          hydra.queue(product[:request])
+        end
+      end.run
+
+      products_with_request.map { |product| product.merge(page: product[:request].response.body)}
+    end
+  end
+
+  class FetchAndMatchAll
+    def call(products)
+      ParallelFetchAll
+        .new
+        .call(products)
         .map { |product| product.merge(found: MatchPage.new.call(product)) }
     end
   end
 
-  def call
-    results_table = to_table(FetchAll.new.call(PRODUCTS))
+  def call(product_map)
+    products = product_map.map { |name, details| details.merge(name: name)}
+    results_table = to_table(FetchAndMatchAll.new.call(products))
     term_output = PresentTerminalTable.new.call(results_table)
     email_output = PresentEmail.new.call(results_table)
 
@@ -120,4 +130,4 @@ class Clothing
   end
 end
 
-Clothing.new.call
+Clothing.new.call(PRODUCTS)
