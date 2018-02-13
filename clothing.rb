@@ -7,72 +7,9 @@ require 'nokogiri'
 require 'sendgrid-ruby'
 require 'terminal-table'
 
+require_relative 'products'
+
 class Clothing
-  MATCHERS = {
-    hering: ->(size, page) { !page.css(".product-detail-variant-size li[data-color=\"#{size}\"]".empty? ) }.curry,
-    renner: ->(size, page) { !page.css(".skuSizeList .inptRadio[name=\"#{size}\"]").empty? }.curry,
-    sounds: ->(size, page) { page.css('#variant [data-available="true"]').map(&:text).include?(size) }.curry,
-  }
-
-  PRODUCTS = {
-    'Hering Jogger Branca' => {
-      url: 'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3M2H07S4',
-      fn: MATCHERS[:hering].('M')
-    },
-    'Hering Jogger Preta' => {
-      url: 'https://www.hering.com.br/store/pt/p/calca-masculina-basica-jogger-em-moletom-peluciado-hering-05M3N1007S5',
-      fn: MATCHERS[:hering].('M')
-    },
-    'Grande Acordo Nacional' => {
-      url: 'https://www.soundandvision.com.br/produtos/grande-acordo-nacional',
-      fn: MATCHERS[:sounds].('M preto')
-    },
-    'Tudo Muito Dark' => {
-      url: 'https://www.soundandvision.com.br/produtos/udo-mui-o-dark-udo-mui-o-dark',
-      fn: MATCHERS[:sounds].('M preta')
-    },
-    'Coma Churros' => {
-      url: 'https://www.soundandvision.com.br/produtos/coma-churros',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Batiminha LP' => {
-      url: 'https://www.soundandvision.com.br/produtos/batiminha-lp',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Batiminha' => {
-      url: 'https://www.soundandvision.com.br/produtos/batiminha',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Deus Nunca Perdoe' => {
-      url: 'https://www.soundandvision.com.br/produtos/que-deus-nunca-perdoe-essas-pessoas-e75a11ee-dc89-4f67-a05e-6dc7976cd97c',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Obama' => {
-      url: 'https://www.soundandvision.com.br/produtos/obama-caa73265-f39e-42bb-8c29-d67af76a14d7',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'Esto no es America' => {
-      url: 'https://www.soundandvision.com.br/produtos/this-is-not-america',
-      fn: MATCHERS[:sounds].('M')
-    },
-    'JAQUETA BOMBER REVERSÍVEL' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-bomber-reversivel-542675088-542675125',
-      fn: MATCHERS[:renner].('M')
-    },
-    'JAQUETA ALONGADA REVERSÍVEL' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-alongada-reversivel-544154850-544154876',
-      fn: MATCHERS[:renner].('M')
-    },
-    'JAQUETA PARKA COM CAPUZ BRANCA' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543157514',
-      fn: MATCHERS[:renner].('M')
-    },
-    'JAQUETA PARKA COM CAPUZ AZUL' => {
-      url: 'http://www.lojasrenner.com.br/p/jaqueta-parka-com-capuz-543157477-543244600',
-      fn: MATCHERS[:renner].('M')
-    }
-  }
-
   class FetchPage
     def call(product)
       Net::HTTP.get(URI(product[:url]))
