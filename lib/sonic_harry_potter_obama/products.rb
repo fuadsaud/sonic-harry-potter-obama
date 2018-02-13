@@ -18,6 +18,22 @@ module SonicHarryPotterObama
       url: 'https://www.soundandvision.com.br/produtos/udo-mui-o-dark-udo-mui-o-dark',
       fn: MATCHERS[:sounds].('M preta')
     },
+    'O Caminho do Bem' => {
+      url: 'https://www.soundandvision.com.br/produtos/o-caminho-do-bem',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Dinossaur Jr.' => {
+      url: 'https://www.soundandvision.com.br/produtos/feel-the-pain',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Washing Machine' => {
+      url: 'https://www.soundandvision.com.br/produtos/washing-machine',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Space Oddity' => {
+      url: 'https://www.soundandvision.com.br/produtos/space-oddity',
+      fn: MATCHERS[:sounds].('M branca')
+    },
     'Coma Churros' => {
       url: 'https://www.soundandvision.com.br/produtos/coma-churros',
       fn: MATCHERS[:sounds].('M')
@@ -34,11 +50,35 @@ module SonicHarryPotterObama
       url: 'https://www.soundandvision.com.br/produtos/the-dark-side-of-batiminha',
       fn: MATCHERS[:sounds].('M')
     },
+    'Who the fuck is Batiminha' => {
+      url: 'https://www.soundandvision.com.br/produtos/who-the-fuck',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'DAMN' => {
+      url: 'https://www.soundandvision.com.br/produtos/damn',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Mac Demarco' => {
+      url: 'https://www.soundandvision.com.br/produtos/mac-demarco',
+      fn: MATCHERS[:sounds].('M')
+    },
     '1000 tretas' => {
       url: 'https://www.soundandvision.com.br/produtos/1000-tretas',
       fn: MATCHERS[:sounds].('M')
     },
-    'Deus Nunca Perdoe' => {
+    'Coltrane' => {
+      url: 'https://www.soundandvision.com.br/produtos/coltrane-8eb518cb-8d9e-48ad-9acb-570d2ace2282',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Coltrane Africa' => {
+      url: 'https://www.soundandvision.com.br/produtos/coltrane-073e6c81-d94b-476e-9006-97fc73920cfb',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Que Deus perdoe essas pessoas' => {
+      url: 'https://www.soundandvision.com.br/produtos/que-deus-perdoe-essas-pessoas-que-deus-gg',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Que Deus nunca perdoe essas pessoas' => {
       url: 'https://www.soundandvision.com.br/produtos/que-deus-nunca-perdoe-essas-pessoas-e75a11ee-dc89-4f67-a05e-6dc7976cd97c',
       fn: MATCHERS[:sounds].('M')
     },
@@ -52,6 +92,10 @@ module SonicHarryPotterObama
     },
     'Esto no es America' => {
       url: 'https://www.soundandvision.com.br/produtos/this-is-not-america',
+      fn: MATCHERS[:sounds].('M')
+    },
+    'Boys Don\'t Cry' => {
+      url: 'https://www.soundandvision.com.br/produtos/boys-don-t-cry',
       fn: MATCHERS[:sounds].('M')
     },
     'Ewok' => {
