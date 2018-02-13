@@ -1,6 +1,5 @@
 require 'commaparty'
 require 'cape-cod'
-require 'net/http'
 require 'nokogiri'
 require 'terminal-table'
 require 'typhoeus'
