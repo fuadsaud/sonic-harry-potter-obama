@@ -1,5 +1,6 @@
 require 'commaparty'
 require 'cape-cod'
+require 'terminal-table'
 
 class SonicHarryPotterObama
   class BoolToChar

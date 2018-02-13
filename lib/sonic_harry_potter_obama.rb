@@ -1,29 +1,14 @@
 require 'nokogiri'
-require 'terminal-table'
-require 'typhoeus'
 
 require_relative 'sonic_harry_potter_obama/products'
-require_relative 'sonic_harry_potter_obama/mailing'
+require_relative 'sonic_harry_potter_obama/fetching'
 require_relative 'sonic_harry_potter_obama/presenting'
+require_relative 'sonic_harry_potter_obama/mailing'
 
 class SonicHarryPotterObama
   class MatchPage
     def call(product)
       product[:fn].(Nokogiri::HTML(product[:page]))
-    end
-  end
-
-  class ParallelFetchAll
-    def call(products)
-      products_with_request = products.map { |product| product.merge(request: Typhoeus::Request.new(product[:url])) }
-
-      Typhoeus::Hydra.hydra.tap do |hydra|
-        products_with_request.each do |product|
-          hydra.queue(product[:request])
-        end
-      end.run
-
-      products_with_request.map { |product| product.merge(page: product[:request].response.body)}
     end
   end
 
