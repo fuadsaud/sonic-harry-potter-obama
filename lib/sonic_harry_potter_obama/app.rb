@@ -22,18 +22,18 @@ module SonicHarryPotterObama
       end
     end
 
-    def call(products)
+    def call(products, send_email: false)
       results_table = to_table(FetchAndMatchAll.new.call(products))
-      term_output = PresentTerminalTable.new.call(results_table)
-      email_output = PresentEmail.new.call(results_table)
 
-      if ENV['email']
+      if send_email
+        email_output = PresentEmail.new.call(results_table)
+
         SendMail.new.call(email_output)
 
         puts email_output
       end
 
-      puts term_output
+      puts PresentTerminalTable.new.call(results_table)
     end
 
     private
