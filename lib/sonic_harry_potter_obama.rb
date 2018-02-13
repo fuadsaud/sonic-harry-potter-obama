@@ -5,8 +5,8 @@ require 'nokogiri'
 require 'terminal-table'
 require 'typhoeus'
 
-require_relative 'products'
-require_relative 'mailing'
+require_relative 'sonic_harry_potter_obama/products'
+require_relative 'sonic_harry_potter_obama/mailing'
 
 class SonicHarryPotterObama
   class MatchPage
